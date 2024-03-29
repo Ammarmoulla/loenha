@@ -1,0 +1,126 @@
+import os
+from dictionaries import diacritics_list, symbol, classes, arabic_characters
+import numpy as np
+from generator import Generator
+import random
+
+def read_data(path_data):
+
+    train = None
+    with open(path_data + '/train.txt', 'r') as file:
+        train = file.readlines()
+    print('Training Samples', len(train))
+
+    val = None
+    with open(path_data + '/valid.txt', 'r') as file:
+        valid = file.readlines()
+    print('Validation Samples', len(valid))
+
+    return train, valid
+
+def remove_diac(raw):
+    return raw.translate(str.maketrans('', '', ''.join(diacritics_list)))
+
+
+def one_hot(samples, length):
+    res_one_hot = []
+    for elem in samples:
+        ans = [0] * length
+        ans[elem] = 1
+        res_one_hot.append(ans)
+    return res_one_hot
+
+def spliter(text):
+    text = text.replace('.', '.\n')
+    text = text.replace(',', ',\n')
+    text = text.replace('،', '،\n')
+    text = text.replace(':', ':\n')
+    text = text.replace(';', ';\n')
+    text = text.replace('؛', '؛\n')
+    text = text.replace('(', '\n(')
+    text = text.replace(')', ')\n')
+    text = text.replace('[', '\n[')
+    text = text.replace(']', ']\n')
+    text = text.replace('{', '\n{')
+    text = text.replace('}', '}\n')
+    text = text.replace('«', '\n«')
+    text = text.replace('»', '»\n')
+    return text.split('\n')
+
+
+def split_data(data_raw):
+
+    res = []
+    
+    for row in data_raw:
+
+        line = spliter(row)
+
+        for sub in line:
+
+            count_character = len(remove_diac(sub).strip())
+
+            if count_character > 0 and count_character <= 500:
+                res.append(sub.strip())
+
+    return res
+
+
+def map_proc(new_data):
+
+    sample, labels = [], []
+
+    for line in new_data:
+        x = [symbol['<SOS>']]
+        y = [classes['<SOS>']]
+
+        for idx, char in enumerate(line):
+            if char in diacritics_list:
+                continue
+
+            x.append(symbol[char])
+
+            if char not in arabic_characters:
+                y.append(classes[''])
+            else:
+                diac = ''
+                if idx + 1 < len(line) and line[idx + 1] in diacritics_list:
+                    diac = line[idx + 1]
+                    if idx + 2 < len(line) and line[idx + 2] in diacritics_list and diac + line[idx + 2] in classes:
+                        diac += line[idx + 2]
+                    elif idx + 2 < len(line) and line[idx + 2] in diacritics_list and line[idx + 2] + diac in classes:
+                        diac = line[idx + 2] + diac
+                y.append(classes[diac])
+
+        assert(len(x) == len(y))
+
+        x.append(symbol['<EOS>'])
+        y.append(classes['<EOS>'])
+
+        y = one_hot(y, len(classes))
+        sample.append(x)
+        labels.append(y)
+
+
+    return sample, labels
+
+
+def full_process(train, valid, batch_size, shuffle):
+
+    train_data = split_data(train)
+    valid_data = split_data(valid)
+
+    print('the number samples of train: {}'.format(len(train_data)))
+    print('the number samples of valid: {}'.format(len(valid_data)))
+
+    if shuffle:
+        random.shuffle(train_data)
+        random.shuffle(valid_data)
+        
+    train_split = list(sorted(train_data, key=lambda line: len(remove_diac(line))))
+    val_split = list(sorted(valid_data, key=lambda line: len(remove_diac(line))))
+
+    train_generator = Generator(train_split, batch_size)
+    valid_generator = Generator(val_split, batch_size)
+
+    return train_generator, valid_generator
