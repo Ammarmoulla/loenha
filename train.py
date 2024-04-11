@@ -68,6 +68,13 @@ def train(config_path):
            epochs=epochs,
         #    callbacks=[neptune_callback],
         )
+    else:
+        history = model.fit(
+           train_generator,
+           validation_data=valid_generator,
+           epochs=epochs,
+        #    callbacks=[neptune_callback],
+        )
     
     result_path = os.path.join(BASE_DIR, os.path.join("outputs", f"model_{type_model}.h5"))
     model.save(result_path)
