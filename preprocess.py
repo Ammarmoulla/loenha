@@ -1,7 +1,6 @@
 import os
 from dictionaries import diacritics_list, symbol, classes, arabic_characters
 import numpy as np
-from generator import Generator
 import random
 
 def read_data(path_data):
@@ -103,24 +102,3 @@ def map_proc(new_data):
 
 
     return sample, labels
-
-
-def full_process(train, valid, batch_size, shuffle):
-
-    train_data = split_data(train)
-    valid_data = split_data(valid)
-
-    print('the number samples of train: {}'.format(len(train_data)))
-    print('the number samples of valid: {}'.format(len(valid_data)))
-
-    if shuffle:
-        random.shuffle(train_data)
-        random.shuffle(valid_data)
-        
-    train_split = list(sorted(train_data, key=lambda line: len(remove_diac(line))))
-    val_split = list(sorted(valid_data, key=lambda line: len(remove_diac(line))))
-
-    train_generator = Generator(train_split, batch_size)
-    valid_generator = Generator(val_split, batch_size)
-
-    return train_generator, valid_generator
