@@ -47,9 +47,11 @@ def train(config_path):
 
     # #Monitor
     run = neptune.init_run(
-    name = type_model,  
-    project="ammar.mlops/arabic-loneha",
-    api_token=neptune_token)
+        name = type_model,  
+        project="ammar.mlops/arabic-loneha",
+        api_token=neptune_token
+        )
+
     url_project = run.get_url()
 
     neptune_callback = NeptuneCallback(run=run,
