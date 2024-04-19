@@ -15,8 +15,6 @@ from telegram import send_telegram
 
 BASE_DIR = Path(__file__).resolve().parent
 
-neptune_token = "eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI5NWE2M2I5My1iZjFmLTRhOWItOGEyNy01YjBlYzMwZmQzNWIifQ==",
-
 
 def train(config_path):
 
@@ -49,8 +47,8 @@ def train(config_path):
     run = neptune.init_run(
         name = type_model,  
         project="ammar.mlops/arabic-loneha",
-        api_token=neptune_token
-        )
+        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI5NWE2M2I5My1iZjFmLTRhOWItOGEyNy01YjBlYzMwZmQzNWIifQ==",
+    )
 
     url_project = run.get_url()
 
@@ -59,8 +57,8 @@ def train(config_path):
     
     send_telegram("The URL ML Track for model: "
                   + f"<b>{type_model}</b> 🤓"
-                  + "\nPlease Use <b> VPN </b>😅 \n")
-                #   + f"{url_project}\n.")
+                  + "\nPlease Use <b> VPN </b>😅 \n"
+                  + f"{url_project}\n.")
 
     if type_device == "GPU":
       with tf.device(f'/{type_device}:0'):

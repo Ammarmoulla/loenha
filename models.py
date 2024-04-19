@@ -33,6 +33,10 @@ def motor(
     model = Model(inputs, output)
     print(model.summary())
     
-    model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate))
+    model.compile(loss='categorical_crossentropy',
+     optimizer=Adam(learning_rate),
+     metrics=['accuracy']
+     )
+
 
     return model
