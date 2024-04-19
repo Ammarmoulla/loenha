@@ -15,7 +15,7 @@ from telegram import send_telegram
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# neptune_token = "eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI5NWE2M2I5My1iZjFmLTRhOWItOGEyNy01YjBlYzMwZmQzNWIifQ=="
+neptune_token = "eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI5NWE2M2I5My1iZjFmLTRhOWItOGEyNy01YjBlYzMwZmQzNWIifQ==",
 
 
 def train(config_path):
@@ -46,14 +46,14 @@ def train(config_path):
     type_model = config['type_model']
 
     # #Monitor
-    # run = neptune.init_run(
-    # name = type_model,  
-    # project="ammar.mlops/arabic-loneha",
-    # api_token=neptune_token)
-    # url_project = run.get_url()
+    run = neptune.init_run(
+    name = type_model,  
+    project="ammar.mlops/arabic-loneha",
+    api_token=neptune_token)
+    url_project = run.get_url()
 
-    # neptune_callback = NeptuneCallback(run=run,
-    #                                    log_model_diagram=True)
+    neptune_callback = NeptuneCallback(run=run,
+                                       log_model_diagram=True)
     
     send_telegram("The URL ML Track for model: "
                   + f"<b>{type_model}</b> 🤓"
@@ -66,14 +66,14 @@ def train(config_path):
            train_generator,
            validation_data=valid_generator,
            epochs=epochs,
-        #    callbacks=[neptune_callback],
+           callbacks=[neptune_callback],
         )
     else:
         history = model.fit(
            train_generator,
            validation_data=valid_generator,
            epochs=epochs,
-        #    callbacks=[neptune_callback],
+           callbacks=[neptune_callback],
         )
     
     result_path = os.path.join(BASE_DIR, os.path.join("outputs", f"model_{type_model}.h5"))
