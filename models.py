@@ -6,6 +6,7 @@ from keras.optimizers import Adam
 from dictionaries import classes, symbol
 
 def motor(
+        n_neurons_embedding,
         n_neurons_lstm,
         n_neurons_timedistributed,
         learning_rate,
@@ -13,7 +14,7 @@ def motor(
     inputs = Input(shape=(None,))
 
     embeddings = Embedding(input_dim=len(symbol),
-                           output_dim=25)(inputs)
+                           output_dim=n_neurons_embedding)(inputs)
 
     blstm1 = Bidirectional(LSTM(units=n_neurons_lstm,
                                      return_sequences=True))(embeddings)

@@ -85,10 +85,6 @@ def map_proc(new_data):
                 diac = ''
                 if idx + 1 < len(line) and line[idx + 1] in diacritics_list:
                     diac = line[idx + 1]
-                    if idx + 2 < len(line) and line[idx + 2] in diacritics_list and diac + line[idx + 2] in classes:
-                        diac += line[idx + 2]
-                    elif idx + 2 < len(line) and line[idx + 2] in diacritics_list and line[idx + 2] + diac in classes:
-                        diac = line[idx + 2] + diac
                 y.append(classes[diac])
 
         assert(len(x) == len(y))
@@ -99,6 +95,5 @@ def map_proc(new_data):
         y = one_hot(y, len(classes))
         sample.append(x)
         labels.append(y)
-
 
     return sample, labels

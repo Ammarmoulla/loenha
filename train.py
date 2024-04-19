@@ -29,11 +29,13 @@ def train(config_path):
 
     train_generator, valid_generator = full_process(train, valid, batch_size, shuffle)
 
+    n_neurons_embedding = config['n_neurons_embedding']
     n_neurons_lstm = config['n_neurons_lstm']
     n_neurons_timedistributed = config['n_neurons_timedistributed']
     learning_rate = config['learning_rate']
 
     model = motor(
+       n_neurons_embedding,
        n_neurons_lstm,
        n_neurons_timedistributed,
        learning_rate
