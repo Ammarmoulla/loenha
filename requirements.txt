@@ -50,6 +50,7 @@ rsa==4.9
 six==1.16.0
 smmap==5.0.1
 streamlit==1.35.0
+streamlit_arabic_support_wrapper==1.1
 tenacity==8.3.0
 tensorboard==2.15.2
 tensorboard-data-server==0.7.2
