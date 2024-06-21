@@ -12,8 +12,8 @@ class Generator(Sequence):
     def __len__(self):
         return int(np.ceil(len(self.rows) / float(self.batch_size)))
 
-    def __getitem__(self, idx):
-        rows = self.rows[idx * self.batch_size:(idx + 1) * self.batch_size]
+    def __getitem__(self, id):
+        rows = self.rows[id * self.batch_size:(id + 1) * self.batch_size]
         samples, labels = map_proc(rows)
 
         max_len_sample = np.max([len(x) for x in samples])

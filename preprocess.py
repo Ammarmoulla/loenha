@@ -73,7 +73,7 @@ def map_proc(new_data):
         x = [symbol['<SOS>']]
         y = [classes['<SOS>']]
 
-        for idx, char in enumerate(line):
+        for id, char in enumerate(line):
             if char in diacritics_list:
                 continue
 
@@ -83,12 +83,12 @@ def map_proc(new_data):
                 y.append(classes[''])
             else:
                 diac = ''
-                if idx + 1 < len(line) and line[idx + 1] in diacritics_list:
-                    diac = line[idx + 1]
-                    if idx + 2 < len(line) and line[idx + 2] in diacritics_list and char_diac + line[idx + 2] in classes:
-                        char_diac += line[idx + 2]
-                    elif idx + 2 < len(line) and line[idx + 2] in diacritics_list and line[idx + 2] + char_diac in classes:
-                        char_diac = line[idx + 2] + char_diac
+                if id + 1 < len(line) and line[id + 1] in diacritics_list:
+                    diac = line[id + 1]
+                    if id + 2 < len(line) and line[id + 2] in diacritics_list and diac + line[id + 2] in classes:
+                        diac += line[id + 2]
+                    elif id + 2 < len(line) and line[id + 2] in diacritics_list and line[id + 2] + diac in classes:
+                        diac = line[id + 2] + diac
                 y.append(classes[diac])
 
         assert(len(x) == len(y))

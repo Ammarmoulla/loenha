@@ -58,9 +58,10 @@ def train(config_path):
                                        log_model_diagram=True)
     
     send_telegram("The URL ML Track for model: "
-                  + f"<b>{type_model}</b> 🤓"
+                  + f"<b> model_{type_model}_lr_{learning_rate}_epochs_{epochs}_bz_{batch_size}</b> 🤓"
                   + "\nPlease Use <b> VPN </b>😅 \n"
                   + f"{url_project}\n.")
+                  
 
     if type_device == "GPU":
       with tf.device(f'/{type_device}:0'):
@@ -78,7 +79,7 @@ def train(config_path):
            callbacks=[neptune_callback],
         )
     
-    result_path = os.path.join(BASE_DIR, os.path.join("outputs", f"model_{type_model}.h5"))
+    result_path = os.path.join(BASE_DIR, os.path.join("outputs", f"model_{type_model}_lr_{learning_rate}_epochs_{epochs}_bz_{batch_size}.h5"))
     model.save(result_path)
 
 

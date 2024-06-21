@@ -13,25 +13,22 @@ def motor(
 ):
     inputs = Input(shape=(None,))
 
-    embeddings = Embedding(input_dim=len(symbol),
-                           output_dim=n_neurons_embedding)(inputs)
+    embeddings = Embedding(input_dim=len(symbol), output_dim=n_neurons_embedding)(inputs)
 
-    blstm1 = Bidirectional(LSTM(units=n_neurons_lstm,
-                                     return_sequences=True))(embeddings)
+    blstm1 = Bidirectional(LSTM(units=n_neurons_lstm, return_sequences=True))(embeddings)
     dropout1 = Dropout(0.5)(blstm1)
-    blstm2 = Bidirectional(LSTM(units=n_neurons_lstm,
-                                     return_sequences=True))(dropout1)
+
+    blstm2 = Bidirectional(LSTM(units=n_neurons_lstm, return_sequences=True))(dropout1)
     dropout2 = Dropout(0.5)(blstm2)
 
-    dense1 = TimeDistributed(Dense(units=n_neurons_timedistributed,
-                                   activation='relu'))(dropout2)
-    dense2 = TimeDistributed(Dense(units=n_neurons_timedistributed,
-                                   activation='relu'))(dense1)
+    dense1 = TimeDistributed(Dense(units=n_neurons_timedistributed, activation='relu'))(dropout2)
+    
+    dense2 = TimeDistributed(Dense(units=n_neurons_timedistributed, activation='relu'))(dense1)
 
-    output = TimeDistributed(Dense(units=len(classes),
-                                   activation='softmax'))(dense2)
+    output = TimeDistributed(Dense(units=len(classes), activation='softmax'))(dense2)
 
     model = Model(inputs, output)
+    
     print(model.summary())
     
     model.compile(loss='categorical_crossentropy',

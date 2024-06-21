@@ -3,9 +3,10 @@ from pathlib import Path
 import pickle
 import argparse
 import numpy as np
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from preprocess import map_proc, remove_diac
 from dictionaries import arabic_characters, revers_classes
+
 BASE_DIR = Path(__file__).resolve().parent
 MODELS_DIR = os.path.join(BASE_DIR, "outputs")
 

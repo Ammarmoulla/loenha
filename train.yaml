@@ -1,6 +1,6 @@
 data_url : "./data"
 
-type_model : "Lstm_Embd_20000" # use "Rnn" or "Rnn_Embd" or "Lstm" or "Lstm_Embd"
+type_model : "Lstm_Embd_20000" 
 learning_rate : 0.0001
 batch_size : 128
 shuffle: 1 # sample datasets become random
