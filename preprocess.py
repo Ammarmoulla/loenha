@@ -85,6 +85,10 @@ def map_proc(new_data):
                 diac = ''
                 if idx + 1 < len(line) and line[idx + 1] in diacritics_list:
                     diac = line[idx + 1]
+                    if idx + 2 < len(line) and line[idx + 2] in diacritics_list and char_diac + line[idx + 2] in classes:
+                        char_diac += line[idx + 2]
+                    elif idx + 2 < len(line) and line[idx + 2] in diacritics_list and line[idx + 2] + char_diac in classes:
+                        char_diac = line[idx + 2] + char_diac
                 y.append(classes[diac])
 
         assert(len(x) == len(y))
