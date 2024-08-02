@@ -1,6 +1,6 @@
 script_path=$(readlink -f "$0")
 script_dir=$(dirname "$script_path")
-unzip /content/shakkelha/dataset/extra_train.zip
+unzip /content/drive/MyDrive/models/extra_train.zip
 mkdir -p data
 tail -n 20000 extra_train.txt > dataset.txt
 split -l 18000 dataset.txt

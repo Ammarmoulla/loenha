@@ -58,7 +58,7 @@ def train(config_path):
                                        log_model_diagram=True)
     
     send_telegram("The URL ML Track for model: "
-                  + f"<b> model_{type_model}_lr_{learning_rate}_epochs_{epochs}_bz_{batch_size}</b> 🤓"
+                  + f"<b> {type_model}_lr_{learning_rate}_epochs_{epochs}_bz_{batch_size}</b> 🤓"
                   + "\nPlease Use <b> VPN </b>😅 \n"
                   + f"{url_project}\n.")
                   
