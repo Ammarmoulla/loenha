@@ -17,9 +17,15 @@ model = load_model(os.path.join(MODELS_DIR, "model_Lstm_Embd_20000.h5"))
 
 def predict(arabic_text):
     X, _ = map_proc([arabic_text])
+
+    print(model.predict(X).shape)
+
     predictions = model.predict(X).squeeze()
+
     predictions = predictions[1:]
-    
+
+    print(predictions[0])
+
     diac_arabic_text = ''
 
     for char, pred in zip(remove_diac(arabic_text), predictions):
